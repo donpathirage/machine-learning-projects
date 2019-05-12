@@ -1,3 +1,5 @@
 
 Project6/MNIST_x_test
 Project6/MNIST_x_train
+*.mat
+*.npy
