@@ -57,7 +57,12 @@ def show_webcam(model, mirror=False):
 
         prediction = 0
         for i in range(len(digits)):
-            prediction = np.argmax(model.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1)))
+            sum = 0
+            sum += model1.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
+            sum += model2.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
+            sum += model3.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
+            sum += model4.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
+            prediction = np.argmax(sum)
             im_copy = cv2.rectangle(im_copy,(r2[i][0],r2[i][2]),(r2[i][1],r2[i][3]),(0,255,0),3)
             cv2.putText(im_copy, str(prediction), (r2[i][0],r2[i][2]), font, 1, (200,255,155))
 
@@ -83,6 +88,9 @@ def show_webcam(model, mirror=False):
 
 
 
-model = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')   #Load Model
+model1 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')   #Load models
+model2 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')
+model3 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')
+model4 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')
 
 show_webcam(model, mirror=False)
