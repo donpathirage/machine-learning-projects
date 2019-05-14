@@ -6,10 +6,11 @@ import numpy as np
 rect, digits, x, y = [], [], 0, 0
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-def show_webcam(model1,model2,model3,model4, mirror=False):
+def show_webcam(model1,model4, mirror=False):
     cam = cv2.VideoCapture(0)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, 160)
     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 120)
+    kernel = np.ones((3,3),np.uint8)
     while True:
         rect = []
         _, img = cam.read()
@@ -23,7 +24,6 @@ def show_webcam(model1,model2,model3,model4, mirror=False):
         blur = cv2.GaussianBlur(gray,(21,21),0)
         th3 = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,        cv2.THRESH_BINARY_INV,11,2)
 
-        kernel = np.ones((3,3),np.uint8)
         dilation = cv2.dilate(th3, kernel, iterations = 2)
 
         _, contours, _ = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -59,8 +59,8 @@ def show_webcam(model1,model2,model3,model4, mirror=False):
             prediction = 0
             sum = 0
             sum += model1.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
-            sum += model2.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
-            sum += model3.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
+            # sum += model2.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
+            # sum += model3.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
             sum += model4.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
             prediction = np.argmax(sum)
             im_copy = cv2.rectangle(im_copy,(r2[i][0],r2[i][2]),(r2[i][1],r2[i][3]),(0,255,0),3)
@@ -89,8 +89,8 @@ def show_webcam(model1,model2,model3,model4, mirror=False):
 
 
 model1 = tf.keras.models.load_model('MNIST_Classifier-NA.model')   #Load models
-model2 = tf.keras.models.load_model('MNIST_Classifier-E.model')
-model3 = tf.keras.models.load_model('MNIST_Classifier-D.model')
+#model2 = tf.keras.models.load_model('MNIST_Classifier-E.model')
+#model3 = tf.keras.models.load_model('MNIST_Classifier-D.model')
 model4 = tf.keras.models.load_model('MNIST_Classifier-ED.model')
 
-show_webcam(model1,model2,model3,model4, mirror=False)
+show_webcam(model1,model4, mirror=False)
