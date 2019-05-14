@@ -83,6 +83,6 @@ def show_webcam(model, mirror=False):
 
 
 
-model = tf.keras.models.load_model('MNIST_Classifier_v3.model')   #Load Model
+model = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')   #Load Model
 
 show_webcam(model, mirror=False)
