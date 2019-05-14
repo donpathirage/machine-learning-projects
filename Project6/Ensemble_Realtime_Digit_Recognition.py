@@ -6,7 +6,7 @@ import numpy as np
 rect, digits, x, y = [], [], 0, 0
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-def show_webcam(model, mirror=False):
+def show_webcam(model1,model2,model3,model4, mirror=False):
     cam = cv2.VideoCapture(0)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, 160)
     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 120)
@@ -55,8 +55,8 @@ def show_webcam(model, mirror=False):
             except:
                 pass
 
-        prediction = 0
         for i in range(len(digits)):
+            prediction = 0
             sum = 0
             sum += model1.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
             sum += model2.predict(np.array(np.round(digits[i]/255)).reshape(1,28,28,1))
@@ -88,9 +88,9 @@ def show_webcam(model, mirror=False):
 
 
 
-model1 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')   #Load models
-model2 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')
-model3 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')
-model4 = tf.keras.models.load_model('MNIST_Classifier-15-1.00.hdf5')
+model1 = tf.keras.models.load_model('MNIST_Classifier-NA.model')   #Load models
+model2 = tf.keras.models.load_model('MNIST_Classifier-E.model')
+model3 = tf.keras.models.load_model('MNIST_Classifier-D.model')
+model4 = tf.keras.models.load_model('MNIST_Classifier-ED.model')
 
-show_webcam(model, mirror=False)
+show_webcam(model1,model2,model3,model4, mirror=False)
